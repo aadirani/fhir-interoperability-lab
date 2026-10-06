@@ -1,0 +1,31 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v
+      - name: End-to-end run on synthetic data
+        run: |
+          python -m fhirlab generate --out build/legacy --patients 20 --seed 42
+          python -m fhirlab transform --in build/legacy --out build/fhir --timezone Asia/Beirut
+          python -m fhirlab validate build/fhir/bundle.json
+      - name: Small example (3 patients) for the examples/ folder
+        run: |
+          python -m fhirlab generate --out build/example/legacy --patients 3 --seed 7
+          python -m fhirlab transform --in build/example/legacy --out build/example/fhir --timezone Asia/Beirut
+          python -m fhirlab validate build/example/fhir/bundle.json
+      - name: Keep the output for inspection
+        uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-fhir-output
+          path: build/
