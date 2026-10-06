@@ -9,8 +9,8 @@ import random
 from datetime import datetime, timedelta
 from pathlib import Path
 
-FIRST = ["Adam", "Lina", "Omar", "Maya", "Karim", "Nour", "Sami", "Rana",
-         "Hadi", "Dana", "Fadi", "Yara", "Ziad", "Hiba", "Tarek", "Reem"]
+FIRST = {"M": ["Adam", "Omar", "Karim", "Sami", "Hadi", "Fadi", "Ziad", "Tarek"],
+         "F": ["Lina", "Maya", "Nour", "Rana", "Dana", "Yara", "Hiba", "Reem"]}
 LAST = ["Haddad", "Khoury", "Saleh", "Nasser", "Fares", "Mansour", "Aziz", "Hamdan", "Rizk", "Sabbagh"]
 
 
@@ -22,7 +22,7 @@ def generate(n_patients=20, seed=42, visits=3):
         mrn = f"SYN-{i:04d}"
         sex = rng.choice("MF")
         birth = datetime(1940, 1, 1) + timedelta(days=rng.randint(0, 365 * 65))
-        patients.append({"mrn": mrn, "first_name": rng.choice(FIRST), "last_name": rng.choice(LAST),
+        patients.append({"mrn": mrn, "first_name": rng.choice(FIRST[sex]), "last_name": rng.choice(LAST),
                          "sex": sex, "birth_date": birth.strftime("%Y-%m-%d")})
         weight = rng.uniform(50, 110)
         for _ in range(visits):
