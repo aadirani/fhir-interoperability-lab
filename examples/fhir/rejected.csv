@@ -1,0 +1,6 @@
+line,mrn,code,value,unit,reason
+59,SYN-0001,HR,abc,bpm,value 'abc' is not a number
+60,SYN-0002,TEMP,45.0,C,TEMP value 45 outside plausible range 30-43
+61,SYN-0003,XYZ,1,x,unknown local code 'XYZ'
+62,SYN-9999,HR,80,bpm,patient SYN-9999 not found in patients.csv
+63,SYN-0004,SBP,120,mmHg,patient SYN-0004 not found in patients.csv
